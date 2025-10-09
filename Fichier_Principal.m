@@ -28,6 +28,9 @@ beta_init=2; % Angle de braquage en rad
 beta=beta_init*ones(l,1);
 
 
+%% Initialisation des variable
+
+
 
 
 %% Boucle for (corp du programe)
