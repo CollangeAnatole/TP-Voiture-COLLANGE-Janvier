@@ -18,7 +18,6 @@ temps_final=20;
 t=(0:dt:temps_final-dt)';
 l=temps_final/dt;
 
-
 %% Entrées du système
 
 u_init=2; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
@@ -26,8 +25,6 @@ u=u_init*ones(l,1);
 
 beta_init=2; % Angle de braquage en rad
 beta=beta_init*ones(l,1);
-
-
 
 
 %% Boucle for (corp du programe)
@@ -41,22 +38,39 @@ for i=1 : l
     % delta respectivement teta angle de lacet et delta angle de derive au
     % centre de gravité en rad
 
+
+
+
     u_1=u(i);
-    beta_1=beta(i);
-
-
-    % Calcul des coeeficient matrice A
 
     a11_1=-(Lf^2*Cf+Lr^2*Cr)/(u_1*Iz);
-    a12_1=(-Lf*Cf+Lr*Cr)/(Iz);
-    a21_1=(-Cf*Lf+Cr*Lr)/(m*u_1^2)-1;
-    a22_1=-(Cf+Cr)/(m*u_1);
-    
-    
-    % Création des coeeficient de la matrice B
+    a11(i)=a11_1;
 
-    b1_1=(Lf*Cf)/Iz;
-    b2_1=Cf/(m*u_1);
+    a12_1=(-Lf*Cf+Lr*Cr)/(Iz);
+    a12(i)=a12_1;
+
+    a21_1=(-Cf*Lf+Cr*Lr)/(m*u_1^2)-1;
+    a21(i)=a21_1;
+
+    a22_1=-(Cf+Cr)/(m*u_1);
+    a22(i)=a22_1;
+
+end
+
+
+% Création des coeeficient de la matrice B
+
+b1=ones(l,1);
+b2=ones(l,1);
+
+for i=1 : l
+    beta_1=beta(i);
+
+    b1_1=;
+    b1(i)=b1_1;
+
+    b2_1=;
+    b2(i)=b2_1;
 
 end
 
