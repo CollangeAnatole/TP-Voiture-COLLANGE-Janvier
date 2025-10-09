@@ -21,7 +21,7 @@ l=temps_final/dt;
 
 %% Entrées du système
 
-u_0=2; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
+u_0=10; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
 u=u_0*ones(l,1);
 
 beta_0=2; % Angle de braquage en rad
@@ -72,17 +72,39 @@ for i=2 : l
 
     b1_1=(Lf*Cf)/Iz;
     b2_1=Cf/(m*u_1);
+
+
+    % Dérivées
+
+    d_d_teta_1=a11_1*d_teta_1+a12_1*delta_1+b1_1*beta_1;
+    d_delta_1=a21_1*d_teta_1+a22_1*delta_1+b2_1*beta_1;
     
     
     % Resolution de l'equation differentiel
     
-    teta_2=
-    d_teta_2=
-    delta_2=
+    teta_2=teta_1+d_teta_1*dt;
+    d_teta_2=d_teta_1+d_d_teta_1*dt;
+    delta_2=delta_1+d_delta_1*dt;
+
+
+    % Inscription dans les vecteurs
+
+    teta(i)=teta_2;
+    d_teta(i)=d_teta_2;
+    delta(i)=delta_2;
+
+
+    % Reinitalise
+
+    teta_1=teta_2;
+    d_teta_1=d_teta_2;
+    delta_1=delta_2;
     
-    
-    
-    
+   
 end
 
 
+plot(t, u, 'r', t, beta, 'b',t, delta, 'g', t, teta, 'k', t,d_teta, 'c');
+legend('');
+title('');
+grid on;
