@@ -1,5 +1,6 @@
 function simulateur_cinematique()
-    %-----------------------------------------------------
+    %---------------------------------------------------------------
+    % SIMULATEUR CINÉMATIQUE D'UN VÉHICULE (modèle bicycle)
     % Entrées : vitesse longitudinale (v) et angle de braquage (delta)
     % Sorties : position (x, y) et orientation (psi)
     %---------------------------------------------------------------
@@ -39,12 +40,12 @@ function simulateur_cinematique()
         psi = X(3,k);
 
         % Équations cinématiques du modèle bicycle
-        dx   = v * cos(psi);
-        dy   = v * sin(psi);
-        d_theta = (v / L) * tan(delta(k));
+        x_dot   = v * cos(psi);
+        y_dot   = v * sin(psi);
+        theta_dot = (v / L) * tan(delta(k));
 
         % Intégration d'Euler
-        X(:,k+1) = X(:,k) + dt * [dx; dy; d_theta];
+        X(:,k+1) = X(:,k) + dt * [x_dot; y_dot; d_theta];
     end
 
     % --- Affichage ---
