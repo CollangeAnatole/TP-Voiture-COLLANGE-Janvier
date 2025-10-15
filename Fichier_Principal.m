@@ -148,7 +148,6 @@ plot(t,d_teta);
 title("Dérivé de l'angele de lacet en foction du temps");
 xlabel("s")
 ylabel("deg.s-1")
-title('');
 grid on;
 
 
