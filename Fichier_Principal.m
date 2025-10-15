@@ -15,7 +15,7 @@ Cr=63460; % Rigidité de dérive arrière en N.rad-1
 %% Vecteur temps
 
 dt=1/100; % delta temps en s
-temps_final=200;
+temps_final=20;
 
 t=(0:dt:temps_final-dt)';
 l=temps_final/dt;
@@ -113,8 +113,41 @@ end
 %% Affichage
 
 figure(1)
-plot(t, u, 'r', t, beta, 'b',t, delta, 'g', t, teta, 'k', t,d_teta, 'c');
-legend('Vitesse du vehicule','angle de braquage');
+subplot(5,1,1)
+plot(t, u*3.6);
+title('Vitesse du vehicule en fonction du temps');
+xlabel("s")
+ylabel("Km.h-1")
+grid on;
+
+subplot(5,1,2)
+plot(t, beta*180/pi);
+title('Angle de braquage en fonction du temps');
+xlabel("s")
+ylabel("deg")
+grid on;
+
+subplot(5,1,3)
+plot(t, delta*180/pi);
+title('Angle de derive en foction du temps');
+xlabel("s")
+ylabel("deg")
+grid on;
+
+subplot(5,1,4)
+
+plot(t, teta*180/pi);
+title('\theta');
+xlabel("s")
+ylabel("deg")
+
+grid on;
+
+subplot(5,1,5)
+plot(t,d_teta);
+title("Dérivé de l'angele de lacet en foction du temps");
+xlabel("s")
+ylabel("deg.s-1")
 title('');
 grid on;
 
@@ -151,3 +184,7 @@ end
 figure(2)
 
 plot(x,y)
+title("Trajectoire du vehicule")
+xlabel("m")
+ylabel("m")
+axis equal
