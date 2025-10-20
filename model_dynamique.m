@@ -1,4 +1,4 @@
-function model_dynamique(ParaV,ParaS)
+function[delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
     
     %% Declaration des Constantes
 
@@ -13,7 +13,7 @@ function model_dynamique(ParaV,ParaS)
     %% Vecteur temps
     
     dt=1/100; % delta temps en s
-    temps_final=20;
+    temps_final=ParaS.Tf;
     
     t=(0:dt:temps_final-dt)';
     l=temps_final/dt;
@@ -108,5 +108,33 @@ function model_dynamique(ParaV,ParaS)
        
     end
 
+    %% Tracé de la trajectoire
+
+    x_1=0;
+    y_1=0;
+    
+    x=zeros(l,1);
+    y=zeros(l,1);
+    
+    x(1)=x_1;
+    y(1)=y_1;
+    
+    for i = 2 : l
+        
+        u_1=u(i-1);
+        teta_1=teta(i-1);
+        delta_1=delta(i-1);
+        psi=teta_1+delta_1;
+    
+        x_2=x_1+u_1*cos(teta_1)*dt;
+        y_2=y_1+u_1*sin(teta_1)*dt;
+    
+        x(i)=x_2;
+        y(i)=y_2;
+    
+        x_1=x_2;
+        y_1=y_2;
+        
+    end
 
 end
