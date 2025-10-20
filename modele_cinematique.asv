@@ -1,17 +1,16 @@
 function simulateur_cinematique()
-    %---------------------------------------------------------------
-    % SIMULATEUR CINÉMATIQUE D'UN VÉHICULE (modèle bicycle)
+    %-----------------------------------------------------
     % Entrées : vitesse longitudinale (v) et angle de braquage (delta)
     % Sorties : position (x, y) et orientation (psi)
     %---------------------------------------------------------------
 
     % --- Paramètres du véhicule ---
-    m  = 1310;     % Masse [kg]
-    Iz = 1760;     % Moment d'inertie en lacet [kg.m^2]
-    Lf = 1.2;      % Demi empattement avant [m]
-    Lr = 1.4;      % Demi empattement arrière [m]
-    Cf = 69740;    % Rigidité dérive avant [N/rad]
-    Cr = 63460;    % Rigidité dérive arrière [N/rad]
+    parvehicule.m  = 1310;     % Masse [kg]
+    parvehicule.Iz = 1760;     % Moment d'inertie en lacet [kg.m^2]
+    parvehicule.Lf = 1.2;      % Demi empattement avant [m]
+    parvehicule.Lr = 1.4;      % Demi empattement arrière [m]
+    parvehicule.Cf = 69740;    % Rigidité dérive avant [N/rad]
+    parvehicule.Cr = 63460;    % Rigidité dérive arrière [N/rad]
 
     L = Lf + Lr;   % Empattement total [m]
 
@@ -27,8 +26,8 @@ function simulateur_cinematique()
     t = 0:dt:T;
 
     % --- Entrées (exemple) ---
-    v = 10;                        % Vitesse constante [m/s]
-    delta = 10*pi/180 * ones(size(t));  % Braquage constant de 10° [rad]
+    parsimu.v = 10;                        % Vitesse constante [m/s]
+    parsimudelta = 10*pi/180 * ones(size(t));  % Braquage constant de 10° [rad]
 
     % --- Simulation par intégration d'Euler ---
     X = zeros(3, length(t));
@@ -40,12 +39,12 @@ function simulateur_cinematique()
         psi = X(3,k);
 
         % Équations cinématiques du modèle bicycle
-        x_dot   = v * cos(psi);
-        y_dot   = v * sin(psi);
-        theta_dot = (v / L) * tan(delta(k));
+        dx   = v * cos(psi);
+        dy   = v * sin(psi);
+        d_theta = (v / L) * tan(delta(k));
 
         % Intégration d'Euler
-        X(:,k+1) = X(:,k) + dt * [x_dot; y_dot; d_theta];
+        X(:,k+1) = X(:,k) + dt * [dx; dy; d_theta];
     end
 
     % --- Affichage ---

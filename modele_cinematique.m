@@ -5,12 +5,12 @@ function simulateur_cinematique()
     %---------------------------------------------------------------
 
     % --- Paramètres du véhicule ---
-    m  = 1310;     % Masse [kg]
-    Iz = 1760;     % Moment d'inertie en lacet [kg.m^2]
-    Lf = 1.2;      % Demi empattement avant [m]
-    Lr = 1.4;      % Demi empattement arrière [m]
-    Cf = 69740;    % Rigidité dérive avant [N/rad]
-    Cr = 63460;    % Rigidité dérive arrière [N/rad]
+    parvehicule.m  = 1310;     % Masse [kg]
+    parvehicule.Iz = 1760;     % Moment d'inertie en lacet [kg.m^2]
+    parvehicule.Lf = 1.2;      % Demi empattement avant [m]
+    parvehicule.Lr = 1.4;      % Demi empattement arrière [m]
+    parvehicule.Cf = 69740;    % Rigidité dérive avant [N/rad]
+    parvehicule.Cr = 63460;    % Rigidité dérive arrière [N/rad]
 
     L = Lf + Lr;   % Empattement total [m]
 
@@ -26,8 +26,8 @@ function simulateur_cinematique()
     t = 0:dt:T;
 
     % --- Entrées (exemple) ---
-    v = 10;                        % Vitesse constante [m/s]
-    delta = 10*pi/180 * ones(size(t));  % Braquage constant de 10° [rad]
+    parsimu.v = 10;                        % Vitesse constante [m/s]
+    parsimu.delta = 10*pi/180 * ones(size(t));  % Braquage constant de 10° [rad]
 
     % --- Simulation par intégration d'Euler ---
     X = zeros(3, length(t));
