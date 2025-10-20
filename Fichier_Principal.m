@@ -169,8 +169,8 @@ for i = 2 : l
     delta_1=delta(i-1);
     psi=teta_1+delta_1;
 
-    x_2=x_1+u_1*cos(teta_1)*dt;
-    y_2=y_1+u_1*sin(teta_1)*dt;
+    x_2=x_1+u_1*cos(psi)*dt;
+    y_2=y_1+u_1*sin(psi)*dt;
 
     x(i)=x_2;
     y(i)=y_2;

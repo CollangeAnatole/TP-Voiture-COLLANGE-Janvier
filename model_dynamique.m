@@ -1,8 +1,8 @@
-function[delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
+function[t,u,beta,delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
     
     %% Declaration des Constantes
 
-    m=vehicule.m; % Masse en Kg
+    m=ParaV.masse; % Masse en Kg
     Iz=ParaV.Iz; % Moment d'inertie du lacet en Kg.m-2
     Lf=ParaV.Lf; % Demi empatement avant en m
     Lr=ParaV.Lr; % Demi empatement arrière en m
@@ -23,7 +23,7 @@ function[delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
     
     % Unité classique
     u_0_=ParaS.v; % En Km.h-1
-    beta_0_=ParaS.beta; % En degres
+    beta_0_=ParaS.Beta; % En degres
     
     % Convertion en unité du SI
     u_0=u_0_/3.6; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
@@ -126,8 +126,8 @@ function[delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
         delta_1=delta(i-1);
         psi=teta_1+delta_1;
     
-        x_2=x_1+u_1*cos(teta_1)*dt;
-        y_2=y_1+u_1*sin(teta_1)*dt;
+        x_2=x_1+u_1*cos(psi)*dt;
+        y_2=y_1+u_1*sin(psi)*dt;
     
         x(i)=x_2;
         y(i)=y_2;
