@@ -4,7 +4,7 @@ V1=creerVehicule(1310,1760,1.2,1.4,69740,63460);
 S1=creerSim(250,5,20);
 
 [t,u,beta,delta,d_teta,teta,x,y]=model_dynamique(V1,S1);
-[tps,v,Beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(V1,S1)
+[tps,v,Beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(V1,S1);
 %% Affichage
 
 figure(1)
