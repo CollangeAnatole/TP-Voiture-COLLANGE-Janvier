@@ -1,70 +1,86 @@
-function simulateur_cinematique()
-    %-----------------------------------------------------
-    % Entrées : vitesse longitudinale (v) et angle de braquage (delta)
-    % Sorties : position (x, y) et orientation (psi)
+function [t,u,beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(ParaV,ParaS)
+    %---------------------------------------------------------------
+    % SIMULATEUR CINÉMATIQUE D'UN VÉHICULE (modèle bicycle)
+    % Sorties : angles de dérive géométriques, vitesses de lacet,
+    %           trajectoire, vitesse et accélération latérale du CdG
     %---------------------------------------------------------------
 
     % --- Paramètres du véhicule ---
-    parvehicule.m  = 1310;     % Masse [kg]
-    parvehicule.Iz = 1760;     % Moment d'inertie en lacet [kg.m^2]
-    parvehicule.Lf = 1.2;      % Demi empattement avant [m]
-    parvehicule.Lr = 1.4;      % Demi empattement arrière [m]
-    parvehicule.Cf = 69740;    % Rigidité dérive avant [N/rad]
-    parvehicule.Cr = 63460;    % Rigidité dérive arrière [N/rad]
-
+ 
+    Lf = ParaV.Lf;      % Demi-empattement avant [m]
+    Lr = ParaV.Lr;      % Demi-empattement arrière [m]
     L = Lf + Lr;   % Empattement total [m]
 
-    % --- Conditions initiales ---
-    x0 = 0;        % Position initiale en X [m]
-    y0 = 0;        % Position initiale en Y [m]
-    theta0 = 0;      % Orientation initiale [rad]
-    X0 = [x0; y0; theta0];
-
     % --- Paramètres de simulation ---
-    dt = 0.01;             % Pas de temps [s]
-    T = 20;                % Durée de simulation [s]
-    t = 0:dt:T;
+    dt = 0.01;     % Pas de temps [s]
+    T  = ParaS.Tf;       % Durée [s]
+    t  = 0:dt:T;
 
-    % --- Entrées (exemple) ---
-    parsimu.v = 10;                        % Vitesse constante [m/s]
-    parsimu.delta = 10*pi/180 * ones(size(t));  % Braquage constant de 10° [rad]
+    % --- Entrées ---
+    v = ParaS.v;                                      % Vitesse constante [m/s]
+    beta = ParaS.Beta*pi/180 * ones(size(t));           % Braquage constant 
 
-    % --- Simulation par intégration d'Euler ---
-    X = zeros(3, length(t));
-    X(:,1) = X0;
+    % --- Conditions initiales ---
+    x = 0; y = 0; psi = 0;
 
-    for k = 1:length(t)-1
-        x = X(1,k);
-        y = X(2,k);
-        psi = X(3,k);
+    % --- Préallocation ---
+    X = zeros(size(t));
+    Y = zeros(size(t));
+    PSI = zeros(size(t));
+    r = zeros(size(t));         % vitesse de lacet
+    r_ng = zeros(size(t));      % vitesse de lacet "sans glissement"
+    ay = zeros(size(t));        % accélération latérale
+    delta_f = zeros(size(t));   % dérive avant
+    delta_r = zeros(size(t));   % dérive arrière
 
-        % Équations cinématiques du modèle bicycle
-        dx   = v * cos(psi);
-        dy   = v * sin(psi);
-        d_theta = (v / L) * tan(delta(k));
+    % --- Boucle de simulation ---
+    for k = 1:length(t)
+        % Cinématique du véhicule
+        dx = v * cos(psi);
+        dy = v * sin(psi);
+        psi_dot = (v / L) * tan(beta(k));
 
-        % Intégration d'Euler
-        X(:,k+1) = X(:,k) + dt * [dx; dy; d_theta];
+        % Mises à jour
+        x = x + dx * dt;
+        y = y + dy * dt;
+        psi = psi + psi_dot * dt;
+
+        % Sorties géométriques
+        r(k) = psi_dot;               % vitesse de lacet réelle
+        r_ng(k) = v / L * sin(beta(k)); % vitesse de lacet sans glissement (approx)
+        ay(k) = v * psi_dot;          % accélération latérale du CdG
+        delta_f(k) = beta(k) - atan(Lf * psi_dot / v);
+        delta_r(k) = -atan(Lr * psi_dot / v);
+
+        % Stockage position/orientation
+        X(k) = x;
+        Y(k) = y;
+        PSI(k) = psi;
     end
 
-    % --- Affichage ---
-
-    subplot(2,1,1);
-    grid on
-    plot(X(1,:), X(2,:), 'b', 'LineWidth', 2); grid on;
-    xlabel('x [m]');
-    ylabel('y [m]');
+    % --- Affichages ---
+    figure;
+    plot(X, Y, 'b', 'LineWidth', 2);
+    xlabel('x [m]'); ylabel('y [m]');
     title('Trajectoire du véhicule (modèle cinématique)');
-    axis equal;
+    axis equal; grid on;
+
+    figure;
+    subplot(3,1,1);
+    plot(t, r*180/pi, 'r', 'LineWidth', 1.5);
     hold on;
+    plot(t, r_ng*180/pi, 'k--', 'LineWidth', 1);
+    ylabel('Vitesse de lacet [°/s]');
+    legend('Réelle','Sans glissement'); grid on;
 
-  
-    subplot(2,1,2);
-    plot(t, X(3,:) * 180/pi, 'r', 'LineWidth', 2);
+    subplot(3,1,2);
+    plot(t, delta_f*180/pi, 'b', t, delta_r*180/pi, 'm', 'LineWidth', 1.5);
+    ylabel('Angles de dérive [°]');
+    legend('\alpha_f','\alpha_r'); grid on;
+
+    subplot(3,1,3);
+    plot(t, ay, 'c', 'LineWidth', 1.5);
     xlabel('Temps [s]');
-    ylabel('\theta [°]');
-    title('Évolution de l''orientation du véhicule');
-    grid on
-
-    
+    ylabel('a_y [m/s²]');
+    grid on;
 end
