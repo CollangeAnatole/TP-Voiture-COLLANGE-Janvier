@@ -46,22 +46,22 @@ xlabel("s")
 ylabel("deg.s-1")
 grid on;
 
-figure(2)
+figure(2);
 
-plot(x,y)
-title("Trajectoire du vehicule")
-xlabel("m")
-ylabel("m")
-axis equal
+plot(x,y);
+title("Trajectoire du vehicule");
+xlabel("m");
+ylabel("m");
+axis equal;
 
 %affichage cinématique
-    figure;
+    figure(3);
     plot(X, Y, 'b', 'LineWidth', 2);
     xlabel('x [m]'); ylabel('y [m]');
     title('Trajectoire du véhicule (modèle cinématique)');
     axis equal; grid on;
 
-    figure;
+    figure(4);
     subplot(3,1,1);
     plot(tps, r*180/pi, 'r', 'LineWidth', 1.5);
     hold on;

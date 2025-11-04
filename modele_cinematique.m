@@ -18,7 +18,9 @@ function [t,u,beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(ParaV,ParaS
 
     % --- Entrées ---
     v = ParaS.v;                                      % Vitesse constante [m/s]
-    beta = ParaS.Beta*pi/180 * ones(size(t));           % Braquage constant 
+    beta = ParaS.Beta*pi/180 * ones(size(t));         % Braquage constant 
+    u_0=v/3.6; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
+    u=u_0*ones(size(t));
 
     % --- Conditions initiales ---
     x = 0; y = 0; psi = 0;
@@ -57,30 +59,30 @@ function [t,u,beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(ParaV,ParaS
         Y(k) = y;
         PSI(k) = psi;
     end
-
-    % --- Affichages ---
-    figure;
-    plot(X, Y, 'b', 'LineWidth', 2);
-    xlabel('x [m]'); ylabel('y [m]');
-    title('Trajectoire du véhicule (modèle cinématique)');
-    axis equal; grid on;
-
-    figure;
-    subplot(3,1,1);
-    plot(t, r*180/pi, 'r', 'LineWidth', 1.5);
-    hold on;
-    plot(t, r_ng*180/pi, 'k--', 'LineWidth', 1);
-    ylabel('Vitesse de lacet [°/s]');
-    legend('Réelle','Sans glissement'); grid on;
-
-    subplot(3,1,2);
-    plot(t, delta_f*180/pi, 'b', t, delta_r*180/pi, 'm', 'LineWidth', 1.5);
-    ylabel('Angles de dérive [°]');
-    legend('\alpha_f','\alpha_r'); grid on;
-
-    subplot(3,1,3);
-    plot(t, ay, 'c', 'LineWidth', 1.5);
-    xlabel('Temps [s]');
-    ylabel('a_y [m/s²]');
-    grid on;
-end
+% 
+%     % --- Affichages ---
+%     figure;
+%     plot(X, Y, 'b', 'LineWidth', 2);
+%     xlabel('x [m]'); ylabel('y [m]');
+%     title('Trajectoire du véhicule (modèle cinématique)');
+%     axis equal; grid on;
+% 
+%     figure;
+%     subplot(3,1,1);
+%     plot(t, r*180/pi, 'r', 'LineWidth', 1.5);
+%     hold on;
+%     plot(t, r_ng*180/pi, 'k--', 'LineWidth', 1);
+%     ylabel('Vitesse de lacet [°/s]');
+%     legend('Réelle','Sans glissement'); grid on;
+% 
+%     subplot(3,1,2);
+%     plot(t, delta_f*180/pi, 'b', t, delta_r*180/pi, 'm', 'LineWidth', 1.5);
+%     ylabel('Angles de dérive [°]');
+%     legend('\alpha_f','\alpha_r'); grid on;
+% 
+%     subplot(3,1,3);
+%     plot(t, ay, 'c', 'LineWidth', 1.5);
+%     xlabel('Temps [s]');
+%     ylabel('a_y [m/s²]');
+%     grid on;
+% end
