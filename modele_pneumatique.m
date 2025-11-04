@@ -1,6 +1,6 @@
 function [Fx,Fy]=modele_pneumatique(pneu,delta)
  
-%Modèle analyrtique de Dugoff
+%Modèle analytique de Dugoff
 
 
 
@@ -15,14 +15,16 @@ sigma=((1-gl)*mu*Fz)/(2*sqrt((Kx^2)*(gl^2)+(Ky^2)*(tan(delta)^2))); % sigma est 
 %expression des efforts longitudinaux
 if sigma<1
     tau=(2-sigma)*sigma;       %zone d'adhérance,tau est un facteur de saturation
+    
+    %expression des efforts longitudinaux
+    Fx=Kx*(gl/(1-gl))*tau;
+    %expression des efforts latéraux
+    Fy = Ky * (tan(delta)/(1-gl)) * tau;    
 else
     tau=1;                   %glissement total
+    %expression des efforts longitudinaux
+    Fx=Kx*(gl/(1-gl))*tau;
+    %expression des efforts latéraux
+    Fy = Ky * (tan(delta)/(1-gl)) * tau;   
 end
-
-%expression des effforts longitudinaux
-Fx=Kx*(gl/(1-gl))*tau;
-
-%expression des efforts latéraux
-Fy = Ky * (tan(delta)/(1-gl)) * tau;
-
 end
