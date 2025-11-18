@@ -17,10 +17,12 @@
     t  = 0:dt:T;
 
     % --- Entrées ---
-    v = ParaS.v;                                      % Vitesse constante [m/s]
-    beta = ParaS.Beta*pi/180 * ones(size(t));         % Braquage constant 
-    u_0=v/3.6; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
-    u=u_0*ones(size(t));
+   [u,beta,t] = creation_scenario(ParaS.scenario_vitesse, ...
+                               ParaS.scenario_braquage, ...
+                               ParaS.vmax/3.6, ...   % conversion km/h → m/s
+                               ParaS.acceleration, ...
+                               ParaS.Beta, ...
+                               ParaS.Tf);
 
     % --- Conditions initiales ---
     x = 0; y = 0; psi = 0;

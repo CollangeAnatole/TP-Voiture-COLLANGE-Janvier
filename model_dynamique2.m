@@ -26,7 +26,14 @@ function [t,u,beta,delta,d_teta,teta,x,y] = model_dynamique2(ParaV,ParaS,pneu)
     l            = length(t);
 
     %% Entrées
-%% a modifier
+
+    [u,beta,t] = creation_scenario(ParaS.scenario_vitesse, ...
+                               ParaS.scenario_braquage, ...
+                               ParaS.vmax/3.6, ...   % conversion km/h → m/s
+                               ParaS.acceleration, ...
+                               ParaS.Beta, ...
+                               ParaS.Tf);
+
 
     %% États
     teta      = zeros(l,1);   
