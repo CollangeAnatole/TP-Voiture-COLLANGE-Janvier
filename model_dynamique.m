@@ -77,6 +77,7 @@ function[t,u,beta,delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
     
         b1_1=(Lf*Cf)/Iz;
         b2_1=Cf/(m*u_1);
+
     
     
         % Dérivées

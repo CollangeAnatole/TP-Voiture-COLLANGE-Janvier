@@ -1,4 +1,4 @@
-function [t,u,beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(ParaV,ParaS)
+ function [t,u,beta,delta_f,delta_r,r,r_ng,ay,X,Y]=modele_cinematique(ParaV,ParaS)
     %---------------------------------------------------------------
     % SIMULATEUR CINÉMATIQUE D'UN VÉHICULE (modèle bicycle)
     % Sorties : angles de dérive géométriques, vitesses de lacet,
