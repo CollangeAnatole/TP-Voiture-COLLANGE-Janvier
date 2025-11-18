@@ -21,17 +21,7 @@ function[t,u,beta,delta,d_teta,teta,x,y] = model_dynamique(ParaV,ParaS)
     
     %% Entrées du système
     
-    % Unité classique
-    u_0_=ParaS.v; % En Km.h-1
-    beta_0_=ParaS.Beta; % En degres
-    
-    % Convertion en unité du SI
-    u_0=u_0_/3.6; % Vitesse lineaire du centre de gravité du vehicule en m.s-1 constant
-    u=u_0*ones(l,1);
-    
-    beta_0=(beta_0_*pi)/180; % Angle de braquage en rad
-    beta=beta_0*ones(l,1);
-    
+%% a modifier
     
     %% Variables
     

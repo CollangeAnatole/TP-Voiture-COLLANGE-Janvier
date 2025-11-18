@@ -26,13 +26,7 @@ function [t,u,beta,delta,d_teta,teta,x,y] = model_dynamique2(ParaV,ParaS,pneu)
     l            = length(t);
 
     %% Entrées
-    u0_kmh   = ParaS.v;       
-    beta0_deg= ParaS.Beta;    
-    u0       = u0_kmh/3.6;    
-    beta0    = beta0_deg*pi/180;
-
-    u     = u0 * ones(l,1);
-    beta  = beta0 * ones(l,1);
+%% a modifier
 
     %% États
     teta      = zeros(l,1);   
