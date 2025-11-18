@@ -1,0 +1,72 @@
+function [U,Beta,t] = creation_scenario(scenarioVitesse,scenarioBraquage,v_max,b,Tf)
+    % creation_scenario génère des profils de vitesse et de braquage
+    % avec dérivées continues.
+    %
+    % Inputs :
+    %   scenarioVitesse : 'constant', 'acceleration', 'freinage'
+    %   scenarioBraquage : 'constant', 'virage', 'zigzag'
+    %   v_max : vitesse max en m/s
+    %   a_max : accélération max en m/s^2
+    %   b : braquage initial en degrés
+    %   Tf : durée totale (s)
+    %
+    % Outputs :
+    %   U : vecteur vitesse (toujours > 0)
+    %   Beta : vecteur angle de braquage (toujours ≠ 0)
+    %   t : vecteur temps
+
+    %% Paramètres de simulation
+    if nargin < 6, Tf = 20; end
+    dt = 0.01;
+    t = (0:dt:Tf-dt)';
+    l = length(t);
+
+    % Phase constante au début (20% du temps)
+    l_const = round(0.2*l);
+    t_const = t(l_const);
+
+    %% Initialisation
+    U0 = 5;                        % vitesse initiale (m/s)
+    Beta0 = b*pi/180;              % braquage initial (rad)
+    U = U0*ones(l,1);
+    Beta = Beta0*ones(l,1);
+
+    %% Fonctions de transition lissées
+    % Sigmoïde pour assurer continuité des dérivées
+    sigmoid = @(tau) 1./(1+exp(-10*(tau))); % pente réglable avec le facteur 10
+
+    %% Scénario vitesse
+    switch scenarioVitesse
+        case 'constant'
+            % reste constant
+            U(:) = U0;
+
+        case 'acceleration'
+            tau = (t-t_const)/(Tf-t_const); tau(t<t_const)=0;
+            U = U0 + (v_max-U0)*sigmoid(tau);
+
+        case 'freinage'
+            tau = (t-t_const)/(Tf-t_const); tau(t<t_const)=0;
+            U = U0 - (U0-0.1)*sigmoid(tau); % descend vers 0.1 m/s
+
+        otherwise
+            error('Scénario vitesse inconnu. Choisis: constant, acceleration, freinage');
+    end
+
+    %% Scénario braquage
+    switch scenarioBraquage
+        case 'constant'
+            Beta(:) = Beta0;
+
+        case 'virage'
+            tau = (t-t_const)/(Tf-t_const); tau(t<t_const)=0;
+            Beta = Beta0 + ((b+15)*pi/180 - Beta0)*sigmoid(tau);
+
+        case 'zigzag'
+            tau = (t-t_const)/(Tf-t_const); tau(t<t_const)=0;
+            Beta = Beta0 + 5*pi/180*sin(2*pi*0.2*t).*sigmoid(tau);
+
+        otherwise
+            error('Scénario braquage inconnu. Choisis: constant, virage, zigzag');
+    end
+end

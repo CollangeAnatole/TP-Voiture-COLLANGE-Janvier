@@ -1,7 +1,7 @@
 clc
 
 V1=creerVehicule(1310,1760,1.2,1.4,69740,63460);
-S1=creerSim(250,5,20);
+S1=creerSim(250,5);
 pneu1=creerPneumatique(0.01,3000,0.8,80000,60000);
 
 [t,u,beta,delta,d_teta,teta,x,y]=model_dynamique(V1,S1);
