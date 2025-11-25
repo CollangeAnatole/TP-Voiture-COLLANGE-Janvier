@@ -4,8 +4,8 @@ V1=creerVehicule(1310,1760,1.2,1.4,69740,63460);
 S1=creerSim(50, ...              % vmax en km/h
                  10, ...              % braquage max en degrés
                  2, ...               % accélération max en m/s²
-                 'acceleration', ...  % scénario vitesse
-                 'virage');           % scénario braquage
+                 'constant', ...  % scénario vitesse
+                 'constant');           % scénario braquage
 pneu1 = creerPneumatique(4000, 0.9, 80000, 60000, 0.01, 10, 1.9, 0.97);
 
 [t,u,beta,delta,d_teta,teta,x,y]=model_dynamique2(V1,S1,pneu1);
