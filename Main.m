@@ -5,7 +5,7 @@ S1=creerSim(50,0,2,'constant','virage');
 pneu1 = creerPneumatique(6350, 0.9, 69740, 63460, 0.01, 9.4, 1.3, 0.97, 9.9, 1.3, 0.97);
 %(Fz,mu,Ky,Kx,gl,Bf,Cf,Ef,Br,Cr,Er
 
-[t,u,beta,delta,d_teta,teta,x,y]=model_dynamique2(V1,S1,pneu1);
+[t,u,beta,delta,d_teta,teta,x,y]=model_dynamique(V1,S1);
 [tps,v,Beta,delta_f,delta_r,r,r_ng,ay,X,Y] = modele_cinematique(V1,S1);
 %% Affichage
 
